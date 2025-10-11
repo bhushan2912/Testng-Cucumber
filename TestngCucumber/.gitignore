@@ -4,6 +4,7 @@
 # Allure results and reports folders
 /target/allure-results/
 /target/site/allure-maven-plugin/
+allure-results/
 
 # TestNG reports and output folder
 /test-output/
