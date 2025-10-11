@@ -10,9 +10,10 @@ import org.openqa.selenium.support.PageFactory;
 import org.testng.asserts.Assertion;
 import org.testng.asserts.SoftAssert;
 
-import com.tb.testbook.utilities.SeleniumUtility;
+import Utility.SeleniumUtility;
 
-import junit.framework.Assert;
+import org.testng.Assert;
+
 
 public class VerifyCourseLandingPage extends SeleniumUtility {
 	

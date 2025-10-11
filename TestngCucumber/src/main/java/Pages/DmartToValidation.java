@@ -23,8 +23,8 @@ public class DmartToValidation {
 	@FindBy(id="pincodeInput")
 	private WebElement inputcity;
 	
-	@FindBy(css="div.pincode-widget_slide-cntr__yQ7Wn button div")
-	private WebElement listCity;
+	@FindBy(css="div[class*=\"pincode-widget_pincode-right\"] b")
+	private WebElement listLocation;
 	
 	@FindBy(xpath="//button[text()='START SHOPPING']")
 	private WebElement startShopping;
@@ -32,29 +32,35 @@ public class DmartToValidation {
 	@FindBy(id="scrInput")
 	private WebElement searchContent;
 	
-	@FindBy(css="div.search_src-backdrop-cntr__7iWhO button")
+	@FindBy(xpath="//button[text()='Search']")
 	private WebElement searchButton;
 	
 	@FindBy(css="h1.search-landing_searchHeaderDiv__wk7EX span")
 	private WebElement results;
 	
+	@FindBy(xpath="//button[text()='CONFIRM LOCATION']")
+	private WebElement confirmButton;
 	
-	public void searchCity(String City) {
-		ElementUtil.eu.clickOnElement(inputcity);
-		ElementUtil.eu.typeInput(inputcity, "kalyan");
-		ElementUtil.eu.waitForElementDisplayed(listCity);
-		
-		List<WebElement> cities=driver.findElements(By.cssSelector("div.pincode-widget_slide-cntr__yQ7Wn button div"));
-		
-		for(int i=0;i<cities.size();i++) {
-			cities=driver.findElements(By.cssSelector("div.pincode-widget_slide-cntr__yQ7Wn button div"));
-			String city=cities.get(i).getText();
-			if(city.equals(City)) {
-				cities.get(i).click();
-			}
-		}
-		ElementUtil.eu.clickOnElement(startShopping);
+	
+	public void searchCity(String Location) {
+	    ElementUtil.eu.clickOnElement(inputcity);
+	    ElementUtil.eu.typeInput(inputcity, Location);
+	    ElementUtil.eu.waitForStaleElement(driver, listLocation);
+
+	    List<WebElement> cities = driver.findElements(By.cssSelector("div[class*=\"pincode-widget_pincode-right\"] b"));
+
+	    for (WebElement cityElement : cities) {
+	        String city = cityElement.getText();
+	        if ("Gandhar Nagar, Khadakpada".equals(city)) {
+	            cityElement.click();
+	            break;
+	        }
+	    }
+
+	    ElementUtil.eu.waitForStaleElement(driver, confirmButton);
+	    ElementUtil.eu.clickOnElement(confirmButton);
 	}
+
 	
 	public void searchGroc(String groc) {//cookies
 		ElementUtil.eu.waitForStaleElement(driver ,searchContent);

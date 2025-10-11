@@ -3,7 +3,7 @@ package stepDef;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.Assert;
+import org.testng.Assert;
 
 import Base.DriverManager;
 import Pages.LoginPage;
