@@ -13,7 +13,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 
-import com.tb.testbook.utilities.SeleniumUtility;
+import Utility.SeleniumUtility;
 
 public class SkillAcademyLogin extends SeleniumUtility {
 	
