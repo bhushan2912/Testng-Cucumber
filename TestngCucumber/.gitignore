@@ -1,1 +1,45 @@
+# Maven target folder
 /target/
+
+# Allure results and reports folders
+/target/allure-results/
+/target/site/allure-maven-plugin/
+
+# TestNG reports and output folder
+/test-output/
+
+# Eclipse IDE files
+.classpath
+.project
+.settings/
+
+# IntelliJ IDEA files
+.idea/
+*.iml
+*.iws
+
+# Drivers and binaries (optional, if you want to keep them out of Git)
+/drivers/
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Extent reports and allure.properties (if generated)
+/reports/
+/allure.properties
+/extent.properties
+/extent-config.xml
+
+# Ignore any hidden folders starting with dot except .git
+.*
+!.git/
+
+# Backup or swap files
+*.bak
+*.swp
