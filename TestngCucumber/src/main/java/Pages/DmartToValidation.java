@@ -35,7 +35,7 @@ public class DmartToValidation {
 	@FindBy(xpath="//button[text()='Search']")
 	private WebElement searchButton;
 	
-	@FindBy(css="h1.search-landing_searchHeaderDiv__wk7EX span")
+	@FindBy(css="div.MuiGrid-root.MuiGrid-container.MuiGrid-spacing-xs-3")
 	private WebElement results;
 	
 	@FindBy(xpath="//button[text()='CONFIRM LOCATION']")
@@ -70,22 +70,66 @@ public class DmartToValidation {
 		ElementUtil.eu.clickOnElement(searchButton);//
 	}
 	
-	public void cookiesDetails(){
-		ElementUtil.eu.waitForElementDisplayed(results);
-		ElementUtil.eu.scrollByPageDown(driver,50);
-		List <WebElement> product=driver.findElements(By.cssSelector("div.MuiGrid-spacing-xs-1>div.MuiGrid-root>:first-child>:nth-child(2)>div"));
-		List <WebElement> Mrp=driver.findElements(By.cssSelector("div.vertical-card_price__Y6yhX>div>div>:first-child>:nth-child(2)>:nth-child(2)"));
-		List <WebElement> DmartPrice=driver.findElements(By.cssSelector("div.vertical-card_price__Y6yhX>div>div>:nth-child(2)>:nth-child(2)>:nth-child(2)"));
-		
-		for(int i=0;i<product.size();i++) {
-			String name=product.get(i).getText();
-			String mrp=Mrp.get(i).getText();
-			String Dprice=DmartPrice.get(i).getText();
-			int row=i+1;
-			ElementUtil.eu.updateCellValue(".\\src\\test\\resources\\org\\Excel\\AppData.xlsx","Sheet3", row, 1, name);
-			ElementUtil.eu.updateCellValue(".\\src\\test\\resources\\org\\Excel\\AppData.xlsx","Sheet3", row, 2, mrp);
-			ElementUtil.eu.updateCellValue(".\\src\\test\\resources\\org\\Excel\\AppData.xlsx","Sheet3", row, 3, Dprice);
-			System.out.println(name+"      MRP:"+mrp+"     Dprice: "+Dprice);
-		}
+	public void cookiesDetails() {
+	    // Wait for results container to be visible before interacting
+	    ElementUtil.eu.waitForElementDisplayed(results);
+
+	    // Scroll down to ensure all products are rendered
+	    ElementUtil.eu.scrollByPageDown(driver, 50);
+
+	    // Locators based on provided comments
+	    String productContainer = "div[class*='vertical-card_card-vertical']";
+	    String productName = "div[class*='vertical-card_title'] div";
+	    String priceLocator = "div[class*='vertical-card_price-left'] > :nth-child(1) > :nth-child(2) > :nth-child(2)";
+	    String dmartPriceLocator = "div[class*='vertical-card_price-left'] > :nth-child(2) > :nth-child(2) > :nth-child(2)";
+	    String offPriceLocator = "div[class*='vertical-card_section-right'] p[class*='vertical-card_value'] > :nth-child(2)";
+
+	    // Fetch product containers
+	    List<WebElement> products = driver.findElements(By.cssSelector(productContainer));
+
+	    for (int i = 0; i < products.size(); i++) {
+	        WebElement product = products.get(i);
+
+	        // Extract product name
+	        String name = "";
+	        try {
+	            name = product.findElement(By.cssSelector(productName)).getText();
+	        } catch (Exception e) {
+	            name = "N/A";
+	        }
+
+	        // Extract MRP price
+	        String mrp = "";
+	        try {
+	            mrp = product.findElement(By.cssSelector(priceLocator)).getText();
+	        } catch (Exception e) {
+	            mrp = "N/A";
+	        }
+
+	        // Extract Dmart price
+	        String dmartPrice = "";
+	        try {
+	            dmartPrice = product.findElement(By.cssSelector(dmartPriceLocator)).getText();
+	        } catch (Exception e) {
+	            dmartPrice = "N/A";
+	        }
+
+	        // Extract Off price (if available)
+	        String offPrice = "";
+	        try {
+	            offPrice = product.findElement(By.cssSelector(offPriceLocator)).getText();
+	        } catch (Exception e) {
+	            offPrice = "N/A";
+	        }
+
+	        int row = i + 1;
+	        ElementUtil.eu.updateCellValue(".\\src\\test\\resources\\org\\Excel\\AppData.xlsx", "Sheet3", row, 1, name);
+	        ElementUtil.eu.updateCellValue(".\\src\\test\\resources\\org\\Excel\\AppData.xlsx", "Sheet3", row, 2, mrp);
+	        ElementUtil.eu.updateCellValue(".\\src\\test\\resources\\org\\Excel\\AppData.xlsx", "Sheet3", row, 3, dmartPrice);
+	        ElementUtil.eu.updateCellValue(".\\src\\test\\resources\\org\\Excel\\AppData.xlsx", "Sheet3", row, 4, offPrice);
+
+	        System.out.println(name + "   MRP: " + mrp + "   Dmart Price: " + dmartPrice + "   Off Price: " + offPrice);
+	    }
 	}
+
 }

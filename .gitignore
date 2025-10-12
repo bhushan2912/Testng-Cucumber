@@ -1,0 +1,40 @@
+/.metadata/
+
+# Ignore Allure commandline binaries
+.allure/
+allure-results/
+
+# Maven build output
+/target/
+
+# Eclipse IDE files
+.classpath
+.project
+.settings/
+
+# IntelliJ IDEA files
+.idea/
+*.iml
+*.iws
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# TestNG report output
+/test-output/
+
+# Allure results and report folders
+/target/allure-results/
+/target/site/allure-maven-plugin/
+
+# Others
+*.bak
+*.swp
