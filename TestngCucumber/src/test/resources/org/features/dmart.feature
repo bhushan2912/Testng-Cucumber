@@ -6,7 +6,7 @@ Feature: Dmart cookies print
     Given I have Url of dmart website
     And I select city as a kalyan and expect in dropdown list as 'Gandhar Nagar'
     When I search as 'chocolates' in search field
-    #Then Print all cookies and prices
+    Then Print all cookies and prices
     
 
 

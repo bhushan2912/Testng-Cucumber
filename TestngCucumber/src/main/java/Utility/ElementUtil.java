@@ -134,41 +134,45 @@ public class ElementUtil {
 		waitForElementDisplayed(element);
 		return element.isDisplayed();
 	}
-	public void updateCellValue(String path,String sheetName,int rowNum,int cellNum,String input) {
-		/* Identify the path and name of excel file */
-		FileInputStream fis=null;
-		try {
-			fis = new FileInputStream(path);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		/* Create an instance of required workbook class */
-		Workbook workbook=null;
-		try {
-			workbook = new XSSFWorkbook(fis);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		Sheet sheet=workbook.getSheet(sheetName);
-		
-			Row row=sheet.getRow(rowNum);
-			
-			row.createCell(cellNum).setCellValue(input);
-			FileOutputStream fos=null;
-			try {
-				fos = new FileOutputStream(path);
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
-			try {
-				workbook.write(fos);
-				fos.flush();
-				fos.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+	public void updateCellValue(String path, String sheetName, int rowNum, int cellNum, String input) {
+	    FileInputStream fis = null;
+	    FileOutputStream fos = null;
+	    Workbook workbook = null;
+
+	    try {
+	        fis = new FileInputStream(path);
+	        workbook = new XSSFWorkbook(fis);
+	        Sheet sheet = workbook.getSheet(sheetName);
+
+	        Row row = sheet.getRow(rowNum);
+	        if (row == null) {
+	            row = sheet.createRow(rowNum);
+	        }
+
+	        Cell cell = row.getCell(cellNum);
+	        if (cell == null) {
+	            cell = row.createCell(cellNum);
+	        }
+	        cell.setCellValue(input);
+
+	        fos = new FileOutputStream(path);
+	        workbook.write(fos);
+	        fos.flush();
+
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    } finally {
+	        try {
+	            if (fos != null) fos.close();
+	            if (fis != null) fis.close();
+	            if (workbook != null) workbook.close();
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	    }
 	}
+
+
 	public String getCellValue(String fileName, String sheetName1, int rownum,int cellnum) {
 		FileInputStream fis = null;
 		try {
